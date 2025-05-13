@@ -1,3 +1,18 @@
-<%- include("templates/header") %> 
-    <h1>Hello World!</h1>
-<%- include("templates/footer") %> 
+<%- include("templates/header") %>
+
+<h1 class="text-center">Welcome to Assignment 2</h1>
+
+<% if (!session.authenticated) { %>
+  <div class="text-center">
+    <a href="/signup" class="btn btn-primary m-2">Sign Up</a>
+    <a href="/login" class="btn btn-success m-2">Log In</a>
+  </div>
+<% } else { %>
+  <h2 class="text-center">Hello, <%= session.name %>!</h2>
+  <div class="text-center">
+    <a href="/members" class="btn btn-info m-2">Members Area</a>
+    <a href="/logout" class="btn btn-danger m-2">Log Out</a>
+  </div>
+<% } %>
+
+<%- include("templates/footer") %>
