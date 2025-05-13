@@ -86,7 +86,7 @@ function adminAuthorization(req, res, next) {
 }
 
 app.get('/', (req,res) => {
-    res.render("index");
+    res.render("index", { session: req.session });
 });
 
 app.get('/nosql-injection', async (req,res) => {
@@ -255,7 +255,3 @@ app.get("*", (req,res) => {
 app.listen(port, () => {
 	console.log("Node application listening on port "+port);
 }); 
-
-app.get("*", (req, res) => {
-  res.status(404).render("404");
-});
