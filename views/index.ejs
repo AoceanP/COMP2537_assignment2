@@ -1,17 +1,17 @@
 <%- include("templates/header") %>
 
-<h1 class="text-center">Welcome to Assignment 2</h1>
+<h1 class="text-center mt-4">Welcome to Assignment 2</h1>
 
 <% if (!session.authenticated) { %>
-  <div class="text-center">
-    <a href="/signup" class="btn btn-primary m-2">Sign Up</a>
-    <a href="/login" class="btn btn-success m-2">Log In</a>
+  <div class="d-flex justify-content-center mt-4 gap-3">
+    <a href="/signup" class="btn btn-primary btn-lg">Sign Up</a>
+    <a href="/login" class="btn btn-success btn-lg">Log In</a>
   </div>
 <% } else { %>
-  <h2 class="text-center">Hello, <%= session.name %>!</h2>
-  <div class="text-center">
-    <a href="/members" class="btn btn-info m-2">Members Area</a>
-    <a href="/logout" class="btn btn-danger m-2">Log Out</a>
+  <h2 class="text-center mt-4">Hello, <%= session.username %>!</h2>
+  <div class="d-flex justify-content-center mt-3 gap-3">
+    <a href="/members" class="btn btn-info btn-lg">Members Area</a>
+    <a href="/logout" class="btn btn-danger btn-lg">Log Out</a>
   </div>
 <% } %>
 
