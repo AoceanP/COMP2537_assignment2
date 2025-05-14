@@ -232,7 +232,8 @@ app.get('/loggedin', (req,res) => {
     if (!req.session.authenticated) {
         res.redirect('/login');
     }
-    res.render("loggedin");
+    res.render("loggedin", { name: req.session.username });
+
 });
 
 app.get('/loggedin/info', (req,res) => {
