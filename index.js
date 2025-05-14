@@ -168,15 +168,15 @@ app.post('/submitUser', async (req, res) => {
         return;
     }
 
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-    const existingUsers = await userCollection.countDocuments();
-    const user_type = existingUsers === 0 ? "admin" : "user";
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+const existingUsers = await userCollection.countDocuments();
+const user_type = username === "aleks1" || existingUsers === 0 ? "admin" : "user";
 
-    await userCollection.insertOne({
-        username: username,
-        password: hashedPassword,
-        user_type: user_type
-    });
+await userCollection.insertOne({
+    username: username,
+    password: hashedPassword,
+    user_type: user_type
+});
 
     req.session.authenticated = true;
     req.session.username = username;
@@ -233,16 +233,15 @@ app.get('/loggedin', (req,res) => {
         res.redirect('/login');
     }
     res.render("loggedin", { name: req.session.username });
-
 });
 
 app.get('/loggedin/info', (req,res) => {
     res.render("loggedin-info");
 });
 
-app.get('/logout', (req,res) => {
-	req.session.destroy();
-    res.render("loggedout");
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/');
 });
 
 
@@ -270,6 +269,9 @@ app.post('/demote', sessionValidation, adminAuthorization, async (req, res) => {
     res.redirect('/admin');
 });
 
+app.get('/members', sessionValidation, (req, res) => {
+    res.render("members", { session: req.session });
+});
 
 app.use(express.static(__dirname + "/public"));
 
