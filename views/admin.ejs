@@ -1,6 +1,6 @@
 <%- include("templates/header") %>
 
-<h1 class="text-center">Admin Dashboard</h1>
+<h1 class="text-center mb-4">Admin Dashboard</h1>
 
 <table class="table table-striped text-center">
   <thead>
@@ -19,17 +19,17 @@
           <% if (user.user_type === 'user') { %>
             <form method="POST" action="/promote" style="display:inline;">
               <input type="hidden" name="username" value="<%= user.username %>">
-              <button class="btn btn-success">Promote</button>
+              <button class="btn btn-success btn-sm">Promote</button>
             </form>
           <% } else if (user.username !== session.username) { %>
             <form method="POST" action="/demote" style="display:inline;">
               <input type="hidden" name="username" value="<%= user.username %>">
-              <button class="btn btn-danger">Demote</button>
+              <button class="btn btn-danger btn-sm">Demote</button>
             </form>
           <% } %>
         </td>
       </tr>
-    <% }); %>
+    <% }) %>
   </tbody>
 </table>
 
