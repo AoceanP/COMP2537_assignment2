@@ -146,6 +146,10 @@ app.get('/createUser', (req,res) => {
     res.render("createUser");
 });
 
+app.get('/signup', (req, res) => {
+    res.redirect('/createUser');
+});
+
 
 app.get('/login', (req,res) => {
     res.render("login");
