@@ -252,8 +252,9 @@ app.get('/cat/:id', (req,res) => {
 });
 
 app.get('/signup', (req, res) => {
-  res.render('signup');
+  res.render('signup', { session: req.session });
 });
+
 
 app.get('/admin', sessionValidation, adminAuthorization, async (req,res) => {
     const result = await userCollection.find().project({ username: 1, user_type: 1, _id: 1 }).toArray();
