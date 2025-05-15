@@ -125,22 +125,22 @@ app.get('/about', (req,res) => {
     res.render("about", {color: color});
 });
 
-app.get('/contact', (req,res) => {
-    var missingEmail = req.query.missing;
-
-    res.render("contact", {missing: missingEmail});
+app.get('/contact', (req, res) => {
+  const missingEmail = req.query.missing === '1';
+  res.render("contact", { session: req.session, missing: missingEmail });
 });
 
-app.post('/submitEmail', (req,res) => {
-    var email = req.body.email;
-    if (!email) {
-        res.redirect('/contact?missing=1');
-    }
-    else {
-        res.render("submitEmail", {email: email});
-    }
-});
+app.post('/submitEmail', (req, res) => {
+  const email = req.body.email;
+  if (!email || email.trim() === '') {
+    return res.redirect('/contact?missing=1');
+  }
 
+  res.render("submitEmail", {
+    session: req.session,
+    email
+  });
+});
 
 app.get('/createUser', (req,res) => {
     res.render("createUser");
@@ -162,10 +162,10 @@ app.post('/submitUser', async (req, res) => {
   const { error, value } = schema.validate(req.body);
 
   if (error) {
-    return res.render('signup', {
-      error: `Please provide a valid ${error.details[0].context.label}.`,
-      session: req.session
-    });
+   	return res.render('signup', {
+  	error: `Please provide a valid ${error.details[0].context.label}.`,
+  	session: req.session
+	});
   }
 
   const { username, email, password } = value;

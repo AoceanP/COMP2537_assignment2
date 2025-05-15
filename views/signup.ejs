@@ -5,6 +5,15 @@
     <div class="card-body">
       <h3 class="card-title text-center mb-4">Create Account</h3>
 
+      <% if (error) { %>
+        <div class="alert alert-danger text-center">
+          <%= error %>
+        </div>
+        <div class="text-center mb-3">
+          <a href="/signup">Try again</a>
+        </div>
+      <% } %>
+
       <form action="/submitUser" method="POST">
         <div class="mb-3">
           <label for="username" class="form-label">Username</label>
@@ -21,7 +30,9 @@
           <input type="password" class="form-control" id="password" name="password" required>
         </div>
 
-        <button type="submit" class="btn btn-primary w-100">Submit</button>
+        <button type="submit" class="btn w-100" style="background-color: #0c66ce; color: white; border: none;">
+          Submit
+        </button>
       </form>
     </div>
   </div>

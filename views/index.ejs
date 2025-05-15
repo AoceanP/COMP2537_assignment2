@@ -5,8 +5,8 @@
 
   <% if (!session || !session.authenticated) { %>
     <div class="d-flex justify-content-center gap-3">
-      <a href="/signup" class="btn btn-steelblue btn-lg">Sign Up</a>
-      <a href="/login" class="btn btn-steelblue btn-lg">Log In</a>
+      <a href="/signup" class="btn btn-lg" style="background-color: #0c66ce; color: white;">Sign Up</a>
+      <a href="/login" class="btn btn-lg" style="background-color: #0c66ce; color: white;">Log In</a>
     </div>
   <% } else { %>
     <h2 class="mt-4">Hello, <strong><%= session.username %></strong>!</h2>
