@@ -1,10 +1,25 @@
-<%- include("templates/header") %> 
-    email address:
-    <form action='/submitEmail' method='post'>
-        <input name='email' type='text' placeholder='email'>
-        <button>Submit</button>
-    </form>
-    <% if (missing) { %>
-        <br> email is required
-    <% } %>  
-<%- include("templates/footer") %> 
+<%- include("templates/header") %>
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div class="card shadow" style="width: 24rem;">
+    <div class="card-body">
+      <h3 class="card-title text-center mb-4">Contact Us</h3>
+
+      <% if (missing) { %>
+        <div class="alert alert-danger text-center">
+          Email is required.
+        </div>
+      <% } %>
+
+      <form action="/submitEmail" method="POST">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email Address</label>
+          <input name="email" type="text" class="form-control" placeholder="email" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include("templates/footer") %>
