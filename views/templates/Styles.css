@@ -1,0 +1,11 @@
+/* Make navbar background grey */
+.bg-body-tertiary {
+  background-color: grey !important;
+}
+
+/* Center navbar links horizontally */
+.navbar-nav {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
