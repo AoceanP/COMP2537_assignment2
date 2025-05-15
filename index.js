@@ -292,21 +292,42 @@ app.get('/signup', (req, res) => {
   res.render('signup', { session: req.session, error: null });
 });
 
-app.get('/admin', sessionValidation, adminAuthorization, async (req,res) => {
-    const result = await userCollection.find().project({ username: 1, user_type: 1, _id: 1 }).toArray();
-    res.render("admin", { users: result, session: req.session });
+app.get("/admin", async (req, res) => {
+  if (!req.session.authenticated) {
+    return res.redirect("/login");
+  }
+
+  if (req.session.user_type !== "admin") {
+    return res.status(403).render("errorMessage", {
+      message: "You are not authorized to access this page.",
+      session: req.session
+    });
+  }
+
+  const userCollection = database.db("assignment2").collection("users");
+  const users = await userCollection.find().toArray();
+
+  res.render("admin", {
+    users: users,
+    session: req.session
+  });
 });
 
-app.post('/promote', sessionValidation, adminAuthorization, async (req, res) => {
-    const username = req.body.username;
-    await userCollection.updateOne({ username }, { $set: { user_type: 'admin' } });
-    res.redirect('/admin');
+
+app.post("/promote", sessionValidation, adminAuthorization, async (req, res) => {
+  const username = req.body.username;
+  const userCollection = database.db("assignment2").collection("users");
+
+  await userCollection.updateOne({ username }, { $set: { user_type: "admin" } });
+  res.redirect("/admin");
 });
 
-app.post('/demote', sessionValidation, adminAuthorization, async (req, res) => {
-    const username = req.body.username;
-    await userCollection.updateOne({ username }, { $set: { user_type: 'user' } });
-    res.redirect('/admin');
+app.post("/demote", sessionValidation, adminAuthorization, async (req, res) => {
+  const username = req.body.username;
+  const userCollection = database.db("assignment2").collection("users");
+
+  await userCollection.updateOne({ username }, { $set: { user_type: "user" } });
+  res.redirect("/admin");
 });
 
 app.get('/members', (req, res) => {
@@ -324,11 +345,11 @@ app.use(express.static("public"));
 
 app.use(express.static(__dirname + "/public"));
 
-app.get("*", (req,res) => {
-	res.status(404);
-	res.render("404");
-})
-
 app.listen(port, () => {
 	console.log("Node application listening on port "+port);
 }); 
+
+app.get("*", (req, res) => {
+  res.status(404).render("404", { session: req.session });
+});
+
