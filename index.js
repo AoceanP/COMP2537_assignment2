@@ -184,9 +184,6 @@ app.post('/submitUser', async (req, res) => {
   res.redirect('/members');
 });
 
-const Joi = require('joi');
-const bcrypt = require('bcrypt');
-
 app.post('/loginSubmit', async (req, res) => {
   const schema = Joi.object({
     email: Joi.string().email().required(),
