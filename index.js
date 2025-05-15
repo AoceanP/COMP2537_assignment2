@@ -273,6 +273,8 @@ app.get('/members', sessionValidation, (req, res) => {
     res.render("members", { session: req.session });
 });
 
+app.use(express.static("public"));
+
 app.use(express.static(__dirname + "/public"));
 
 app.get("*", (req,res) => {
