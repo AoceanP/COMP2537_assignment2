@@ -13,26 +13,30 @@
   <tbody>
     <% users.forEach(user => { %>
       <tr>
-        <td><%= user.username %></td>
+        <td><%= user.username === session.username ? 'Me' : user.username %></td>
         <td><%= user.user_type %></td>
         <td>
-          <% if (user.user_type === 'user') { %>
-            <form method="POST" action="/promote" style="display:inline;">
-              <input type="hidden" name="username" value="<%= user.username %>">
-              <button class="btn btn-danger btn-sm">Promote to Admin</button>
-            </form>
-          <% } %>
-
-          <% if (user.username !== session.username && user.user_type === 'admin') { %>
-            <form method="POST" action="/demote" style="display:inline;">
-              <input type="hidden" name="username" value="<%= user.username %>">
-              <button class="btn btn-success btn-sm">Demote to User</button>
-            </form>
+          <% if (user.username !== session.username) { %>
+            <% if (user.user_type === 'user') { %>
+              <form method="POST" action="/promote" style="display:inline;">
+                <input type="hidden" name="username" value="<%= user.username %>">
+                <button type="submit" class="btn btn-danger btn-sm" style="background-color: #dc3545; border: none;">Promote to Admin</button>
+              </form>
+            <% } else { %>
+              <form method="POST" action="/demote" style="display:inline;">
+                <input type="hidden" name="username" value="<%= user.username %>">
+                <button type="submit" class="btn btn-success btn-sm" style="background-color: #198754; border: none;">Demote to User</button>
+              </form>
+            <% } %>
+          <% } else { %>
+            <!-- No buttons for self -->
+            <span class="text-muted">—</span>
           <% } %>
         </td>
       </tr>
-    <% }) %>
+    <% }); %>
   </tbody>
 </table>
 
 <%- include("templates/footer") %>
+
