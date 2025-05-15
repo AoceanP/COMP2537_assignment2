@@ -153,42 +153,37 @@ app.get('/login', (req,res) => {
 });
 
 app.post('/submitUser', async (req, res) => {
-    var username = req.body.username;
-    var password = req.body.password;
+  const schema = Joi.object({
+    username: Joi.string().min(1).required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().min(1).required(),
+  });
 
-    const schema = Joi.object({
-        username: Joi.string().alphanum().max(20).required(),
-        password: Joi.string().max(20).required()
+  const { error, value } = schema.validate(req.body);
+
+  if (error) {
+    return res.render('signup', {
+      error: `Please provide a valid ${error.details[0].context.label}.`,
+      session: req.session
     });
+  }
 
-    const validationResult = schema.validate({ username, password });
-    if (validationResult.error != null) {
-        console.log(validationResult.error);
-        res.redirect("/createUser");
-        return;
-    }
+  const { username, email, password } = value;
+  const hashedPassword = await bcrypt.hash(password, 10);
 
-  const hashedPassword = await bcrypt.hash(password, saltRounds);
-const existingUsers = await userCollection.countDocuments();
-const user_type = username === "aleks1" || existingUsers === 0 ? "admin" : "user";
+  const userCollection = database.db("assignment2").collection("users");
+  await userCollection.insertOne({
+    username,
+    email,
+    password: hashedPassword
+  });
 
-await userCollection.insertOne({
-    username: username,
-    password: hashedPassword,
-    user_type: user_type
+  req.session.authenticated = true;
+  req.session.username = username;
+
+  res.redirect('/members');
 });
 
-    req.session.authenticated = true;
-    req.session.username = username;
-    req.session.user_type = user_type;
-    req.session.cookie.maxAge = expireTime;
-
-    if (user_type === "admin") {
-        res.redirect("/admin");
-    } else {
-        res.redirect("/loggedin");
-    }
-});
 
 app.post('/loggingin', async (req,res) => {
     var username = req.body.username;
@@ -252,9 +247,8 @@ app.get('/cat/:id', (req,res) => {
 });
 
 app.get('/signup', (req, res) => {
-  res.render('signup', { session: req.session });
+  res.render('signup', { session: req.session, error: null });
 });
-
 
 app.get('/admin', sessionValidation, adminAuthorization, async (req,res) => {
     const result = await userCollection.find().project({ username: 1, user_type: 1, _id: 1 }).toArray();
@@ -273,8 +267,15 @@ app.post('/demote', sessionValidation, adminAuthorization, async (req, res) => {
     res.redirect('/admin');
 });
 
-app.get('/members', sessionValidation, (req, res) => {
-    res.render("members", { session: req.session });
+app.get('/members', (req, res) => {
+  if (!req.session.authenticated) {
+    return res.redirect('/login');
+  }
+
+  res.render('user', {
+    session: req.session,
+    username: req.session.username
+  });
 });
 
 app.use(express.static("public"));
