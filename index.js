@@ -272,7 +272,7 @@ app.get('/members', (req, res) => {
     return res.redirect('/login');
   }
 
-  res.render('user', {
+res.render('templates/user', {
     session: req.session,
     username: req.session.username
   });
