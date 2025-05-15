@@ -154,24 +154,29 @@ app.get('/login', (req, res) => {
 
 app.post('/submitUser', async (req, res) => {
   const schema = Joi.object({
-    username: Joi.string().min(1).required(),
-    email: Joi.string().email().required(),
-    password: Joi.string().min(1).required(),
+    username: Joi.string().min(1).required().label('Name'),
+    email: Joi.string().email().required().label('email address'),
+    password: Joi.string().min(1).required().label('Password'),
   });
 
   const { error, value } = schema.validate(req.body);
 
   if (error) {
-   	return res.render('signup', {
-  	error: `Please provide a valid ${error.details[0].context.label}.`,
-  	session: req.session
-	});
+    const fieldName = error.details[0].context.label;
+    const message = fieldName === 'email address'
+      ? `Please provide an ${fieldName}.`
+      : `${fieldName} is required.`;
+
+    return res.render('signup', {
+      error: message,
+      session: req.session
+    });
   }
 
   const { username, email, password } = value;
   const hashedPassword = await bcrypt.hash(password, 10);
-
   const userCollection = database.db("assignment2").collection("users");
+
   await userCollection.insertOne({
     username,
     email,
