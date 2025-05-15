@@ -1,4 +1,9 @@
-<%- include("templates/header") %> 
-    <h1 style='color:red'>Error!</h1>
-    <div><%= error %> </div>
-<%- include("templates/footer") %> 
+<%- include("templates/header") %>
+
+<div class="container text-center mt-5">
+  <h2 class="text-danger">Access Denied</h2>
+  <p><%= error %></p>
+  <a href="<%= tryAgainLink %>" class="btn btn-primary mt-3"><%= tryAgainText %></a>
+</div>
+
+<%- include("templates/footer") %>

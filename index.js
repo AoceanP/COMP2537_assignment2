@@ -292,15 +292,18 @@ app.get('/signup', (req, res) => {
   res.render('signup', { session: req.session, error: null });
 });
 
-app.get("/admin", async (req, res) => {
+app.get('/admin', sessionValidation, async (req, res) => {
   if (!req.session.authenticated) {
-    return res.redirect("/login");
+    return res.redirect('/login'); // Already handled by sessionValidation middleware
   }
 
-  if (req.session.user_type !== "admin") {
-    return res.status(403).render("errorMessage", {
-      message: "You are not authorized to access this page.",
-      session: req.session
+  if (req.session.user_type !== 'admin') {
+    res.status(403);
+    return res.render('errorMessage', {
+      session: req.session,
+      error: 'You are not authorized to view the admin page.',
+      tryAgainLink: '/', // or wherever you'd like to redirect them
+      tryAgainText: 'Return to Home'
     });
   }
 
@@ -308,27 +311,38 @@ app.get("/admin", async (req, res) => {
   const users = await userCollection.find().toArray();
 
   res.render("admin", {
-    users: users,
-    session: req.session
+    session: req.session,
+    users: users
   });
 });
 
-
-app.post("/promote", sessionValidation, adminAuthorization, async (req, res) => {
+app.post('/promote', sessionValidation, adminAuthorization, async (req, res) => {
   const username = req.body.username;
+
   const userCollection = database.db("assignment2").collection("users");
 
-  await userCollection.updateOne({ username }, { $set: { user_type: "admin" } });
-  res.redirect("/admin");
+  await userCollection.updateOne(
+    { username: username },
+    { $set: { user_type: "admin" } }
+  );
+
+  res.redirect('/admin');
 });
 
-app.post("/demote", sessionValidation, adminAuthorization, async (req, res) => {
+
+app.post('/demote', sessionValidation, adminAuthorization, async (req, res) => {
   const username = req.body.username;
+
   const userCollection = database.db("assignment2").collection("users");
 
-  await userCollection.updateOne({ username }, { $set: { user_type: "user" } });
-  res.redirect("/admin");
+  await userCollection.updateOne(
+    { username: username },
+    { $set: { user_type: "user" } }
+  );
+
+  res.redirect('/admin');
 });
+
 
 app.get('/members', (req, res) => {
   if (!req.session.authenticated) {
