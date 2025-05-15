@@ -17,24 +17,27 @@
         <td><%= user.user_type %></td>
         <td>
           <% if (user.username !== session.username) { %>
-            <% if (user.user_type === 'user') { %>
-              <form method="POST" action="/promote" style="display:inline;">
-                <input type="hidden" name="username" value="<%= user.username %>">
-                <button type="submit" class="btn btn-danger btn-sm" style="background-color: #dc3545; border: none;">Promote to Admin</button>
-              </form>
-            <% } else { %>
-              <form method="POST" action="/demote" style="display:inline;">
-                <input type="hidden" name="username" value="<%= user.username %>">
-                <button type="submit" class="btn btn-success btn-sm" style="background-color: #198754; border: none;">Demote to User</button>
-              </form>
-            <% } %>
+            <!-- Promote Button -->
+            <form method="POST" action="/promote" style="display:inline;">
+              <input type="hidden" name="username" value="<%= user.username %>">
+              <button type="submit" class="btn btn-danger btn-sm" style="background-color: #dc3545; border: none;">
+                Promote to Admin
+              </button>
+            </form>
+
+            <!-- Demote Button -->
+            <form method="POST" action="/demote" style="display:inline;">
+              <input type="hidden" name="username" value="<%= user.username %>">
+              <button type="submit" class="btn btn-success btn-sm" style="background-color: #198754; border: none;">
+                Demote to User
+              </button>
+            </form>
           <% } else { %>
-            <!-- No buttons for self -->
             <span class="text-muted">—</span>
           <% } %>
         </td>
       </tr>
-    <% }); %>
+    <% }) %>
   </tbody>
 </table>
 

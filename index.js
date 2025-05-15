@@ -318,28 +318,15 @@ app.get('/admin', sessionValidation, async (req, res) => {
 
 app.post('/promote', sessionValidation, adminAuthorization, async (req, res) => {
   const username = req.body.username;
-
-  const userCollection = database.db("assignment2").collection("users");
-
-  await userCollection.updateOne(
-    { username: username },
-    { $set: { user_type: "admin" } }
-  );
-
+  const userCollection = database.db('assignment2').collection('users');
+  await userCollection.updateOne({ username }, { $set: { user_type: 'admin' } });
   res.redirect('/admin');
 });
 
-
 app.post('/demote', sessionValidation, adminAuthorization, async (req, res) => {
   const username = req.body.username;
-
-  const userCollection = database.db("assignment2").collection("users");
-
-  await userCollection.updateOne(
-    { username: username },
-    { $set: { user_type: "user" } }
-  );
-
+  const userCollection = database.db('assignment2').collection('users');
+  await userCollection.updateOne({ username }, { $set: { user_type: 'user' } });
   res.redirect('/admin');
 });
 
