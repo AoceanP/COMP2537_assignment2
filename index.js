@@ -356,8 +356,6 @@ app.get('/members', (req, res) => {
   });
 });
 
-
-
 app.use(express.static("public"));
 
 app.use(express.static(__dirname + "/public"));
@@ -365,40 +363,6 @@ app.use(express.static(__dirname + "/public"));
 app.listen(port, () => {
 	console.log("Node application listening on port "+port);
 }); 
-
-async function createInitialAdmin() {
-  const userCollection = database.db("assignment2").collection("users");
-  const exists = await userCollection.findOne({ user_type: 'admin' });
-
-  if (!exists) {
-    const bcrypt = require("bcrypt");
-    const hashed = await bcrypt.hash("admin123", 10);
-    await userCollection.insertOne({
-      username: "admin",
-      email: "admin@example.com",
-      password: hashed,
-      user_type: "admin"
-    });
-    console.log("✅ Admin user created: admin@example.com / admin123");
-  }
-}
-createInitialAdmin();
-
-app.post('/promoteSelf', async (req, res) => {
-  const username = req.body.username;
-  const userCollection = database.db("assignment2").collection("users");
-
-  await userCollection.updateOne(
-    { username },
-    { $set: { user_type: "admin" } }
-  );
-
-  // Refresh session to reflect change
-  req.session.user_type = "admin";
-
-  res.redirect("/admin");
-});
-
 
 app.get("*", (req, res) => {
   res.status(404).render("404", { session: req.session });

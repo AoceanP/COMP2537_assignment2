@@ -2,21 +2,20 @@
 
 <h2 class="text-center mb-4">Welcome, <%= name %>!</h2>
 
-<div class="row text-center">
-  <div class="col-md-4 col-sm-12 mb-3">
-    <img src="/fluffy.gif" class="img-fluid rounded" alt="Fluffy Cat">
+<div class="container">
+  <div class="row row-cols-1 row-cols-md-3 g-4 text-center">
+    <div class="col">
+      <img src="/fluffy.gif" class="img-fluid rounded" alt="Fluffy Cat">
+    </div>
+    <div class="col">
+      <img src="/socks.gif" class="img-fluid rounded" alt="Socks Cat">
+    </div>
+    <div class="col">
+      <img src="/cat.gif" class="img-fluid rounded" alt="Another Cat">
+    </div>
   </div>
-  <div class="col-md-4 col-sm-12 mb-3">
-    <img src="/socks.gif" class="img-fluid rounded" alt="Socks Cat">
-  </div>
-  <div class="col-md-4 col-sm-12 mb-3">
-    <img src="/cat.gif" class="img-fluid rounded" alt="Another Cat">
-  </div>
+
+  <a href="/logout" class="btn btn-danger d-block mx-auto w-50 mt-4">Log Out</a>
 </div>
 
-<a href="/logout" class="btn btn-danger d-block mx-auto w-25 mt-4">Log Out</a>
-<form method="POST" action="/promoteSelf" class="text-center mt-4">
-  <input type="hidden" name="username" value="<%= session.username %>">
-  <button class="btn btn-warning">Promote Me to Admin (Temp)</button>
-</form>
 <%- include("templates/footer") %>
