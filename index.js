@@ -272,15 +272,10 @@ app.get('/members', (req, res) => {
     return res.redirect('/login');
   }
 
-res.render('templates/user', {
+  res.render('loggedin', {
     session: req.session,
-    username: req.session.username
+    name: req.session.username
   });
-});
-
-res.render('loggedin', {
-  session: req.session,
-  name: req.session.username
 });
 
 app.use(express.static("public"));
