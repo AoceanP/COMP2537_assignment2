@@ -15,15 +15,15 @@
         <td><%= user.username %></td>
         <td><%= user.user_type %></td>
         <td>
-        <td>
+<td>
   <form method="POST" action="/promote" style="display:inline;">
     <input type="hidden" name="username" value="<%= user.username %>">
-    <button class="btn btn-primary btn-sm">Promote to Admin</button>
+    <button class="btn btn-danger btn-sm rounded-pill px-3">Promote to Admin</button>
   </form>
 
   <form method="POST" action="/demote" style="display:inline; margin-left: 5px;">
     <input type="hidden" name="username" value="<%= user.username %>">
-    <button class="btn btn-warning btn-sm">Demote to User</button>
+    <button class="btn btn-success btn-sm rounded-pill px-3">Demote to User</button>
   </form>
 </td>
 
