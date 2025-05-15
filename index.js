@@ -148,8 +148,8 @@ app.get('/createUser', (req,res) => {
 
 
 
-app.get('/login', (req,res) => {
-    res.render("login");
+app.get('/login', (req, res) => {
+  res.render('login', { session: req.session, error: null });
 });
 
 app.post('/submitUser', async (req, res) => {
@@ -184,6 +184,46 @@ app.post('/submitUser', async (req, res) => {
   res.redirect('/members');
 });
 
+const Joi = require('joi');
+const bcrypt = require('bcrypt');
+
+app.post('/loginSubmit', async (req, res) => {
+  const schema = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().min(1).required()
+  });
+
+  const { error, value } = schema.validate(req.body);
+  if (error) {
+    return res.render('login', {
+      error: 'Invalid input.',
+      session: req.session
+    });
+  }
+
+  const { email, password } = value;
+  const userCollection = database.db("assignment2").collection("users");
+  const user = await userCollection.findOne({ email });
+
+  if (!user) {
+    return res.render('login', {
+      error: 'Invalid email/password combination.',
+      session: req.session
+    });
+  }
+
+  const passwordMatch = await bcrypt.compare(password, user.password);
+  if (!passwordMatch) {
+    return res.render('login', {
+      error: 'Invalid email/password combination.',
+      session: req.session
+    });
+  }
+
+  req.session.authenticated = true;
+  req.session.username = user.username;
+  res.redirect('/members');
+});
 
 app.post('/loggingin', async (req,res) => {
     var username = req.body.username;

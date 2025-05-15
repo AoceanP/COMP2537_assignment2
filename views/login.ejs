@@ -1,8 +1,32 @@
-<%- include("templates/header") %> 
-    log in
-    <form action='/loggingin' method='post'>
-    <input name='username' type='text' placeholder='username'>
-    <input name='password' type='password' placeholder='password'>
-    <button>Submit</button>
-    </form>
-<%- include("templates/footer") %> 
+<%- include("templates/header") %>
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div class="card shadow" style="width: 24rem;">
+    <div class="card-body">
+      <h3 class="card-title text-center mb-4">Log In</h3>
+
+      <% if (error) { %>
+        <div class="alert alert-danger"><%= error %></div>
+        <div class="text-center">
+          <a href="/login">Try again</a>
+        </div>
+      <% } %>
+
+      <form action="/loginSubmit" method="POST">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include("templates/footer") %>
