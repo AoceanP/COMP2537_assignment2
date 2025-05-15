@@ -13,10 +13,7 @@
     <img src="/cat.gif" class="img-fluid rounded" alt="Another Cat">
   </div>
 </div>
-<form method="POST" action="/promoteSelf" class="text-center mt-4">
-  <input type="hidden" name="username" value="<%= session.username %>">
-  <button class="btn btn-warning">Promote Me to Admin (Temp)</button>
-</form>
+
 <a href="/logout" class="btn btn-danger d-block mx-auto w-25 mt-4">Log Out</a>
 
 <%- include("templates/footer") %>
