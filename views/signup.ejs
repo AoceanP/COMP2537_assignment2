@@ -6,10 +6,10 @@
       <h3 class="card-title text-center mb-4">Create Account</h3>
 
       <% if (error) { %>
-        <div class="alert alert-danger text-center"><%= error %></div>
-        <div class="text-center mb-3">
-          <a href="/signup">Try again</a>
-        </div>
+          <div class="alert alert-danger text-center"><%= error %></div>
+          <div class="text-center mb-3">
+          <a href="/login">Back to login</a>
+      </div>
       <% } %>
 
       <form action="/submitUser" method="POST">

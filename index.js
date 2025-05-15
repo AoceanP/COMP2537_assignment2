@@ -162,10 +162,10 @@ app.post('/submitUser', async (req, res) => {
   const { error, value } = schema.validate(req.body);
 
   if (error) {
-    const fieldName = error.details[0].context.label;
-    const message = fieldName === 'email address'
-      ? `Please provide an ${fieldName}.`
-      : `${fieldName} is required.`;
+    const field = error.details[0].context.label;
+    const message = field === 'email address'
+      ? `Please provide an ${field}.`
+      : `${field} is required.`;
 
     return res.render('signup', {
       error: message,
