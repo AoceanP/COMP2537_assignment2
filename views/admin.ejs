@@ -16,20 +16,21 @@
         <td><%= user.username %></td>
         <td><%= user.user_type %></td>
         <td>
-          <% if (user.user_type === 'user') { %>
-            <form method="POST" action="/promote" style="display:inline;">
-              <input type="hidden" name="username" value="<%= user.username %>">
-              <button class="btn btn-danger btn-sm">Promote to Admin</button>
-            </form>
-          <% } %>
+  <% if (user.username !== session.username) { %>
+    <form method="POST" action="/promote" style="display:inline;">
+      <input type="hidden" name="username" value="<%= user.username %>">
+      <button class="btn btn-danger btn-sm">Promote to Admin</button>
+    </form>
 
-          <% if (user.username !== session.username && user.user_type === 'admin') { %>
-            <form method="POST" action="/demote" style="display:inline;">
-              <input type="hidden" name="username" value="<%= user.username %>">
-              <button class="btn btn-success btn-sm">Demote to User</button>
-            </form>
-          <% } %>
-        </td>
+    <form method="POST" action="/demote" style="display:inline; margin-left: 5px;">
+      <input type="hidden" name="username" value="<%= user.username %>">
+      <button class="btn btn-success btn-sm">Demote to User</button>
+    </form>
+  <% } else { %>
+    <span class="text-muted">—</span>
+  <% } %>
+</td>
+
       </tr>
     <% }) %>
   </tbody>
