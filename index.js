@@ -222,8 +222,9 @@ app.post('/loginSubmit', async (req, res) => {
     });
   }
 
-  req.session.authenticated = true;
-  req.session.username = user.username;
+req.session.authenticated = true;
+req.session.username = user.username;
+req.session.user_type = user.user_type;
   res.redirect('/members');
 });
 
