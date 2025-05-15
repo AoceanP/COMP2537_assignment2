@@ -119,10 +119,10 @@ app.get('/nosql-injection', async (req,res) => {
     res.send(`<h1>Hello ${username}</h1>`);
 });
 
-app.get('/about', (req,res) => {
-    var color = req.query.color;
-
-    res.render("about", {color: color});
+app.get('/about', (req, res) => {
+  res.render('about', {
+    session: req.session
+  });
 });
 
 app.get('/contact', (req, res) => {
