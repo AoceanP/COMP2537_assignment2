@@ -1,0 +1,5 @@
+Student Name: Aleksandar Panich
+Student Set: 2A
+[yes] The signout buttons end the session. (complete)
+[yes] The .env file is NOT in your git repo. (complete)
+50/50
