@@ -15,5 +15,8 @@
 </div>
 
 <a href="/logout" class="btn btn-danger d-block mx-auto w-25 mt-4">Log Out</a>
-
+<form method="POST" action="/promoteSelf" class="text-center mt-4">
+  <input type="hidden" name="username" value="<%= session.username %>">
+  <button class="btn btn-warning">Promote Me to Admin (Temp)</button>
+</form>
 <%- include("templates/footer") %>
