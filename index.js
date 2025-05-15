@@ -278,6 +278,11 @@ res.render('templates/user', {
   });
 });
 
+res.render('loggedin', {
+  session: req.session,
+  name: req.session.username
+});
+
 app.use(express.static("public"));
 
 app.use(express.static(__dirname + "/public"));
